@@ -1,7 +1,17 @@
 import java.util.Scanner;
 
+/**
+ * A calculator to calculate the amount of paint needed to paint walls.
+ */
 public class Main {
+    /**
+     * The ANSI code to reset any terminal formatting.
+     */
     public static String RESET = "\033[0m";
+
+    /**
+     * The ANSI code to format the terminal as bold, red text.
+     */
     public static String EMPH = "\033[1;91m";
 
     public static void main(String[] args) {
@@ -40,6 +50,12 @@ public class Main {
         System.out.printf("You will need %d can%s (%.2f litres)!\n", numberCans, pluralChar, paintQty);
     }
 
+    /**
+     * Query the user for details to calculate the area of the wall.
+     * @param scanSysIn The scanner instance connected to the user's input, probably sysin.
+     * @param index The zero-based index of the wall.
+     * @return The area of the wall.
+     */
     private static double askWall(Scanner scanSysIn, int index) {
         System.out.printf("%sWall %d%s\n", EMPH, index + 1, RESET);
         // Enter wall width and height
@@ -59,14 +75,7 @@ public class Main {
         int numObstructions = scanSysIn.nextInt();
 
         for (int i = 0; i < numObstructions; i++) {
-            System.out.printf("%sWall %d Obstruction %d%s\n", EMPH, index + 1, i + 1, RESET);
-            System.out.print("Please enter the width of the obstruction (metres): ");
-            double obWidth = scanSysIn.nextDouble();
-
-            System.out.print("Please enter the height of the obstruction (metres): ");
-            double obHeight = scanSysIn.nextDouble();
-
-            obstructionArea += obWidth * obHeight;
+            obstructionArea += askObstruction(scanSysIn, index, i);
             System.out.println("========");
         }
 
@@ -76,5 +85,44 @@ public class Main {
         }
 
         return baseArea - obstructionArea;
+    }
+
+    /**
+     * Query the user for details about an obstruction to painting the wall.
+     * @param scanSysIn The scanner instance connected to the user's input, probably sysin.
+     * @param wallIndex The zero-based index of the wall this obstruction is located on.
+     * @param index The zero-based index of this obstruction on the wall.
+     * @return The area of the obstruction.
+     */
+    private static double askObstruction(Scanner scanSysIn, int wallIndex, int index) {
+        System.out.printf("%sWall %d Obstruction %d%s\n", EMPH, wallIndex + 1, index + 1, RESET);
+
+        System.out.println("What is the shape of the obstruction? 1 - rectangular (or square), 2 - circular, 3 - oval");
+        int option = scanSysIn.nextInt();
+
+        switch (option) {
+            case 1: // rectangular
+                System.out.print("Please enter the width of the obstruction (metres): ");
+                double obWidth = scanSysIn.nextDouble();
+                System.out.print("Please enter the height of the obstruction (metres): ");
+                double obHeight = scanSysIn.nextDouble();
+                return obWidth * obHeight;
+
+            case 2: // circular
+                System.out.print("Please enter the radius of the obstruction (metres): ");
+                double obRadius = scanSysIn.nextDouble();
+                return 2.d * Math.PI * obRadius;
+
+            case 3: // oval
+                System.out.print("Please enter the length of the semi-major axis of the obstruction (metres): ");
+                double obSemiMajor = scanSysIn.nextDouble();
+                System.out.print("Please enter the length of the semi-minor axis of the obstruction (metres): ");
+                double obSemiMinor = scanSysIn.nextDouble();
+                return Math.PI * obSemiMajor * obSemiMinor;
+
+            default:
+                System.out.println("Nonexistent shape...");
+                return 0;
+        }
     }
 }
