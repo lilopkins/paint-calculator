@@ -14,8 +14,14 @@ public class Main {
      */
     public static String EMPH = "\033[1;91m";
 
+    /**
+     * The amount of paint needed to paint 1 square metre.
+     */
+    public static final float PAINT_LITRES_PER_SQ_M = 4;
+
     public static void main(String[] args) {
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
+            // Disable ANSI colours on Windows - doesn't support them!
             EMPH = RESET = "";
         }
 
@@ -34,9 +40,7 @@ public class Main {
         System.out.print("Please enter how many coats of paint you want: ");
         int coats = scanSysIn.nextInt();
 
-        final float litresPerSqM = 4;
-
-        double paintQty = litresPerSqM * coats * totalArea;
+        double paintQty = PAINT_LITRES_PER_SQ_M * coats * totalArea;
 
         // Paint can size
         System.out.print("Please enter how big your paint cans are (litres): ");
