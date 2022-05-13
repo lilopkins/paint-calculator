@@ -99,30 +99,29 @@ public class Main {
 
         System.out.println("What is the shape of the obstruction? 1 - rectangular (or square), 2 - circular, 3 - oval");
         int option = scanSysIn.nextInt();
-
-        switch (option) {
+        return switch (option) {
             case 1: // rectangular
                 System.out.print("Please enter the width of the obstruction (metres): ");
                 double obWidth = scanSysIn.nextDouble();
                 System.out.print("Please enter the height of the obstruction (metres): ");
                 double obHeight = scanSysIn.nextDouble();
-                return obWidth * obHeight;
+                yield obWidth * obHeight;
 
             case 2: // circular
                 System.out.print("Please enter the radius of the obstruction (metres): ");
                 double obRadius = scanSysIn.nextDouble();
-                return 2.d * Math.PI * obRadius;
+                yield 2.d * Math.PI * obRadius;
 
             case 3: // oval
                 System.out.print("Please enter the length of the semi-major axis of the obstruction (metres): ");
                 double obSemiMajor = scanSysIn.nextDouble();
                 System.out.print("Please enter the length of the semi-minor axis of the obstruction (metres): ");
                 double obSemiMinor = scanSysIn.nextDouble();
-                return Math.PI * obSemiMajor * obSemiMinor;
+                yield Math.PI * obSemiMajor * obSemiMinor;
 
             default:
                 System.out.println("Nonexistent shape...");
-                return 0;
-        }
+                yield 0;
+        };
     }
 }
