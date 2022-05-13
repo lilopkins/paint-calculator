@@ -1,10 +1,14 @@
 import java.util.Scanner;
 
 public class Main {
-    public static final String RESET = "\033[0m";
-    public static final String EMPH = "\033[1;91m";
+    public static String RESET = "\033[0m";
+    public static String EMPH = "\033[1;91m";
 
     public static void main(String[] args) {
+        if (System.getProperty("os.name").toLowerCase().contains("win")) {
+            EMPH = RESET = "";
+        }
+
         Scanner scanSysIn = new Scanner(System.in);
 
         System.out.print("How many walls are there?: ");
