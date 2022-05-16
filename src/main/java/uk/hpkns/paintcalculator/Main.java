@@ -69,6 +69,8 @@ public class Main {
         panel.setLayoutManager(new GridLayout(1));
 
         final Table<String> table = new Table<>("Width", "Height", "# Obstructions");
+
+        // Wall detail panel
         table.setSelectAction(() -> {
             if (table.getTableModel().getRowCount() == 0) return;
             List<String> row = table.getTableModel().getRow(table.getSelectedRow());
@@ -134,6 +136,7 @@ public class Main {
                 tblObs.getTableModel().addRow(typ, sze);
             }
 
+            // Add obstructions
             Button btnAddObs = new Button("Add Obstruction");
             btnAddObs.addListener(button -> new ActionListDialogBuilder()
                     .setTitle("Add Obstruction")
@@ -193,6 +196,7 @@ public class Main {
             gui.addWindow(dlg);
         });
 
+        // Add a wall
         Button btnAdd = new Button("Add");
         btnAdd.addListener(button -> {
             String width = new TextInputDialogBuilder()
@@ -217,6 +221,7 @@ public class Main {
         panel.addComponent(btnAdd);
         panel.addComponent(table);
 
+        // Calculate paint needed
         Button btnCalc = new Button("Calculate...");
         btnCalc.addListener(button -> {
             double totalArea = 0d;
@@ -255,6 +260,10 @@ public class Main {
                     .showDialog(gui);
         });
         panel.addComponent(btnCalc);
+
+        Button btnExit = new Button("Exit");
+        btnExit.addListener(button -> System.exit(0));
+        panel.addComponent(btnExit);
 
         window.setComponent(panel);
         window.setHints(List.of(Window.Hint.CENTERED));
